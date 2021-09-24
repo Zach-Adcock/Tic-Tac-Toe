@@ -18,3 +18,36 @@
     border: 2px solid black;
 
 }
+
+
+.setup-container {
+    border: 2px solid black;
+    display: flex;
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    flex-wrap: wrap;
+}
+
+.setup-container .player-one-setup{
+    flex: 1;
+
+}
+
+.setup-container .player-two-setup{
+    flex: 1;
+
+}
+.setup-container .player-selector{
+    border: 2px solid blue;
+}
+
+.setup-container .player-selector:hover{
+    transform: scale(1.1);
+}
+
+
+.setup-container .game-title{
+    width: 100%;
+    height: 30px;
+}

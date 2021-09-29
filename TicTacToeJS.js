@@ -10,11 +10,12 @@ const displayController = ( () => {
     const playerTwoTitle = document.querySelector('.player-two-title');
     const playerOneSelector = document.querySelector('#player-one-human-selector');
     const playerTwoSelector = document.querySelector('#player-two-human-selector');
-    const AIOneSelector = document.querySelector('#player-one-AI-selector');
+    // const AIOneSelector = document.querySelector('#player-one-AI-selector');
     const AITwoSelector = document.querySelector('#player-two-AI-selector');
     
     return {
-
+        mainDiv, setupContainer, gameTitle, playerOneTitle, playerTwoTitle,
+        playerOneSelector, playerOneTitle, AITwoSelector
     }
 })();
 
@@ -24,14 +25,13 @@ const displayController = ( () => {
     const getMark = () => mark;
 
     return {
-        getName,
-        getMark
+        getName, getMark
     }
 };
 
 //Create gameboard module (square event listeners, check winning combos)
 const gameBoard = ( () => {
-    const boardMoves = ['','','X','','','','','','',];
+    const boardMoves = ['','','','','','','','','',];
 
 
     const getSelection = (e) => {
@@ -65,13 +65,16 @@ const gameBoard = ( () => {
         })
     }
 
-
+    const clearBoard = () => {
+        boardMoves.fill('');
+    }
 
     return {
         boardMoves,
         getSelection,
         renderBoard,
-        updateBoardMoves
+        updateBoardMoves,
+        clearBoard
     };
 
 })();
@@ -80,15 +83,25 @@ const gameBoard = ( () => {
 const gamePlay = (() => {
     const playerOne = Player('Insert Name 1', 'X');
     const playerTwo = Player('Insert Name 2', 'O');
+    const AI = Player('Computer', 'O');
     let currentPlayer = playerOne;
+    let opposingPlayer = playerTwo;
     let gameOver = false;
     
+    //Starts the game when new game is clicked
+    const newGame = () => {
+        opposingPlayer = (displayController.playerTwoSelector.classList.contains('active')) ? playerTwo : AI;
+        gameBoard.clearBoard()
+    }
+
+
     //Sets gamemode to human v human or human v computer
     const gameMode = () => {
         //check to see which player buttons are active
         return 'pvp'
     }
     // const currentMark = playerOne.getMark;
+
 
 
     //Updates DOM based on player's move
@@ -98,6 +111,10 @@ const gamePlay = (() => {
         if (currentPlayer.getMark() == 'X' || currentPlayer.getMark() == 'O') {
             document.getElementById(`${squareID}`).innerText = currentPlayer.getMark();
             gameBoard.updateBoardMoves()
+            if (winningMove() === true) {
+                console.log('Game Over');
+                endGame();
+            };
             togglePlayer();
         };
     };
@@ -113,7 +130,7 @@ const gamePlay = (() => {
 
 
     //Check to see if game is over
-    const endGame = () => {
+    const winningMove = () => {
         const winVariations =  [
             [0,1,2],
             [3,4,5],
@@ -130,15 +147,20 @@ const gamePlay = (() => {
             if (j[winVariations[i][0]] == j[winVariations[i][1]] && j[winVariations[i][0]] == j[winVariations[i][2]]){
                 console.log(j[winVariations[i][0]] + j[winVariations[i][1]] + j[winVariations[i][2]])
                 gameOver = (j[winVariations[i][0]] == 'X' || j[winVariations[i][0]] == 'O') ? true : false; 
-                console.log(gameOver);
+                return gameOver
             }
         };       
+    }
+
+    const endGame = () => {
+
     }
 
     return {
         makeMove,
         togglePlayer,
-        endGame,
+        winningMove,
+        endGame
     }
 
 })();

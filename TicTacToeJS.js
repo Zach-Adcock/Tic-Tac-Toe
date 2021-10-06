@@ -25,7 +25,6 @@ const displayController = ( () => {
         } else {
             document.querySelector('#player-two-human-selector').classList.remove('active');
         }
-        gamePlay.newGame();
     }
 
     playerTwoSelector.addEventListener('click', activeButton);
@@ -82,9 +81,10 @@ const gameBoard = ( () => {
 
     //Renders board based on updated boardMoves array
     const renderBoard = () => {
+        let updatedBoard = getBoardMoves();
         var count = 0;
         gameSquares.forEach( square => {
-            square.innerText = boardMoves[count];
+            square.innerText = updatedBoard[count];
             count ++ ;
         });
     };
@@ -117,21 +117,15 @@ const gameBoard = ( () => {
 
 //Module to track gameplay (create 2 players, control game flow, track scores)
 const gamePlay = (() => {
-    const playerOne = Player('Human Name 1', 'X');
-    const playerTwo = Player('Human Name 2', 'O');
+    const playerOne = Player('Player 1', 'X');
+    const playerTwo = Player('Player 2', 'O');
     const AI = Player('Computer', 'O');
     let firstPlayer = playerOne;
     let opposingPlayer = playerTwo;
     let currentPlayer = playerOne;
     let gameOver = false;
     let winningMark = '';
-    
-    //Starts the game when new game is clicked
-    const newGame = () => {
-        opposingPlayer = ((displayController.playerTwoSelector).classList.contains('active')) ? playerTwo : AI;
-        gameBoard.clearBoard(); //Start with fresh board
-        // gameMode(); //Sets pvp or pvc (((Don't need this here??)))
-    }
+    const currentTurnIndicator = document.querySelector('.turn-indicator');
 
     //Sets gamemode to human v human or human v computer
     const gameMode = () => {
@@ -139,7 +133,7 @@ const gamePlay = (() => {
         return 'pvc'
     }
 
-    // const currentMark = playerOne.getMark;
+    // Function for testing purposes only
     const gameCheck = () => {
         console.log('currentPlayer: '  + currentPlayer.getName() + currentPlayer.getMark());  
         console.log('firstPlayer: '  + firstPlayer.getName() + firstPlayer.getMark());  
@@ -151,6 +145,7 @@ const gamePlay = (() => {
 
     //Updates DOM based on player's move
     const makeMove = (squareID) => {
+        console.log('Current Player: ' + currentPlayer.getName() + opposingPlayer.getName())
         const checkID = parseInt(squareID[squareID.length-1])-1;  //determines the index of the square using its ID
         if (checkID < 0 || checkID > 8) return
         if (currentPlayer.getMark() == 'X' || currentPlayer.getMark() == 'O') {
@@ -159,17 +154,52 @@ const gamePlay = (() => {
             winningMove()
             if (getGameOver() === true || getGameOver() === 'tie') {
                 endGame();
+                togglePlayer();
+                return
             };
-            togglePlayer();
+            if (gameMode() == 'pvc') {
+                randomComputerMove();
+            } else {
+                togglePlayer();
+            }
         };
     };
     const togglePlayer = () => {
+        console.log('toggle');
         if (gameMode() === 'pvp'){
             currentPlayer = (currentPlayer === playerOne) ? playerTwo : playerOne;
-        } else if (gameMode() === 'pva'){
+        } else if (gameMode() === 'pvc'){
             currentPlayer = (currentPlayer === playerOne) ? AI : playerOne;
         }
+        currentTurnMessage();
         };
+
+    //Sets the text to show whose turn it is
+    const currentTurnMessage = () => {
+        if (getGameOver()){
+            currentTurnIndicator.innerText = '';
+        } else {
+            currentTurnIndicator.innerText = `${currentPlayer.getName()}'s Turn ('${currentPlayer.getMark()}')`;
+        }
+    }
+
+    //Places a random move from the Computer
+    const randomComputerMove = () => {
+        let randomIndex = Math.floor(Math.random() * 9);
+        while ((gameBoard.getBoardMoves())[randomIndex] !== ''){
+            randomIndex = Math.floor(Math.random() * 9);
+        }
+        console.log(randomIndex);
+        console.log(gameBoard.getBoardMoves()[randomIndex]);
+        console.log(AI.getMark());
+        document.getElementById(`square-${randomIndex+1}`).innerText = AI.getMark();
+        gameBoard.updateBoardMoves();
+
+        winningMove();
+        if (getGameOver() === true || getGameOver() === 'tie') {
+            endGame();
+        };
+    }
 
     //Check to see if game is over
     const winningMove = () => {
@@ -199,23 +229,40 @@ const gamePlay = (() => {
 
     //getter for the live value of gameOver
     const getGameOver = () => {
-        console.log('gameOver = ' + gameOver);
         return gameOver
     }
 
     const endGame = () => {
         const endMessage = document.createElement('div');
+        endMessage.className = 'endgame-message';
         const winner = (winningMark == 'X')? firstPlayer : opposingPlayer;
         if (gameOver == true) {
-            endMessage.innerText = `${winner.getName()} is the winner.`;
+            endMessage.innerText = `${winner.getName()} ('${winner.getMark()}') is the winner.`;
         } else {
             endMessage.innerText = `This round is a tie.`;
         };
-        let parentNode = displayController.mainDiv;
+        let parentNode = displayController.mainDiv; //Display winning (or tie) game message
         let childNode = displayController.gameContainer;
-        console.log(typeof parentNode);
         parentNode.insertBefore(endMessage, childNode);
     }
+
+    //Starts the game when new game is clicked
+    const newGame = () => {
+        gameBoard.clearBoard(); //Start with fresh board
+        gameBoard.clickableSquares() //needs initialization after gamePlay module is created
+
+        opposingPlayer = ((displayController.playerTwoSelector).classList.contains('active')) ? playerTwo : AI;
+        currentPlayer = playerOne;
+        gameOver = false;
+
+        let gameEndMessage = document.querySelector('.endgame-message');
+        if (!!gameEndMessage) gameEndMessage.remove() //deletes game winner message from previous game
+        
+        currentTurnMessage();
+        console.log(opposingPlayer.getName());
+        gameMode(); //Sets pvp or pvc (((Don't need this here??)))
+    }
+    newGame();
 
 
     return {
@@ -225,12 +272,12 @@ const gamePlay = (() => {
         endGame,
         newGame,
         gameCheck,
-        getGameOver
+        getGameOver,
+        gameMode
     }
 
 })();
 
-gameBoard.clickableSquares() //needs initialization after gamePlay module is created
 
 
 

@@ -1,20 +1,39 @@
-
-
-.gameboard {
-    width: 600px;
-    height: 600px;
-    margin: 50px auto 50px auto;
-
-    border: 2px solid black;
-
-
-    display: grid;
-    grid: repeat(3, 1fr) / repeat(3, 1fr);
+.wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+.main{
+    display: flex;
+    flex-direction: column;
 }
 
+.new-game{
+    width: 200px;
+    height: 30px;
+    margin: 0px auto 20px auto;
+}
 
+.header-background {
+    background-color: rgba(89, 148, 84, 0.836);
+}
+.game-title{
+    max-width: 100%;
+    height: 40px;
+    width: 85%;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 30px auto 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.gamesquare {
+.gamesquare{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10vw;
+
     border: 2px solid black;
     background-color: ivory;
 }
@@ -25,22 +44,21 @@
 
 
 .setup-container {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     display: flex;
-    margin: 30px auto;
-    width: 300px;
-    height: 300px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 15px auto;
+    max-width: 90%;
+    height: 110px;
 }
 
-.setup-container .player-one-setup{
-    flex: 1;
-
+.setup-container > div {
+    margin: 10px auto;
 }
 
-.setup-container .player-two-setup{
+.setup-container .player-one-setup, .player-two-setup{
     flex: 1;
-
+    text-align:center;
 }
 .setup-container .player-selector{
     outline: .5px solid black;
@@ -49,17 +67,152 @@
     border-radius: 0;
 }
 
-.setup-container .player-selector:hover{
+.player-selector:hover{
     transform: scale(1.1);
     outline-width: 4px;
 }
 
 
-.setup-container .game-title{
-    width: 100%;
-    height: 30px;
-}
-
 .player-selector.active{
     background-color: rgb(50, 143, 50);
+}
+
+.main > div {
+    display: flex;
+    justify-content: center;
+}
+
+.turn-indicator, .endgame-message{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.gameboard {
+    width: 66vw;
+    height: 66vw;
+    margin: 50px auto 50px auto;
+    border: 2px solid black;
+    display: grid;
+    grid: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.game-container{
+    z-index:2;
+
+}
+
+.circle {
+    max-width: 100%;
+    border-radius: 50%;
+    background-color: rgba(89, 148, 84, 0.836);
+}
+
+@media only screen and (min-width: 750px) {
+    .wrapper{
+        max-width: 100%;
+    }
+    .main {
+        display: flex;
+        align-items: center;
+    }
+    .setup-container {
+        /* border: 2px solid black; */
+        display: flex;
+        flex-direction: row;
+        margin: 10px auto;
+        max-width: 90%;
+        height: 60px;
+    }
+    .setup-container .player-one-setup, .player-two-setup{
+        flex: 1;
+        text-align:center;
+        width: 300px;
+        height: 50px;
+    }
+    .new-game{
+        width: 200px;
+        height: 30px;
+        margin: 0px auto 20px auto;
+    }
+    .turn-indicator, .endgame-message{
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    .gameboard {
+        width: 40vw;
+        height: 40vw;
+        margin: 0px auto 50px auto;
+        border: 2px solid black;
+        display: grid;
+        grid: repeat(3, 1fr) / repeat(3, 1fr);
+        position: relative;
+        top: 26px;
+    }
+    .circle {
+        align-items: center;
+        width: 58vw;
+        height: 58vw;
+        border-radius: 50%;
+    }
+    .gamesquare{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 7vw;
+    }
+    .header-background {
+        width: 100%;
+    }
+    
+}
+
+@media only screen and (min-width: 1030px) {
+    .gameboard {
+        width: 29vw;
+        height: 29vw;
+    }
+    .circle {
+        align-items: center;
+        width: 42vw;
+        height: 42vw;
+    }
+    .gamesquare{
+        display: flex;
+        font-size: 7vw;
+    }
+}
+
+@media only screen and (min-width: 1430px) {
+    .gameboard {
+        width: 23vw;
+        height: 23vw;
+    }
+    .circle {
+        align-items: center;
+        width: 35vw;
+        height: 35vw;
+    }
+    .gamesquare{
+        display: flex;
+        font-size: 6vw;
+    }
+}
+
+@media only screen and (min-width: 1700px) {
+    .gameboard {
+        width: 21vw;
+        height: 21vw;
+        top: 26px;
+    }
+    .circle {
+        align-items: center;
+        width: 31vw;
+        height: 31vw;
+    }
+    .gamesquare{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5vw;
+    }
 }

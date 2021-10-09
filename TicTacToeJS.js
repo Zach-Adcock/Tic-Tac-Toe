@@ -7,6 +7,7 @@ const displayController = ( () => {
     const setupContainer = document.querySelector('.setup-container');
     const gameContainer = document.querySelector('.game-container');
     const gameTitle = document.querySelector('.game-title');
+    const displayCircle = document.querySelector('.circle');
     const playerOneTitle = document.querySelector('.player-one-title');
     const playerTwoTitle = document.querySelector('.player-two-title');
     const playerOneSelector = document.querySelector('#player-one-human-selector');
@@ -38,7 +39,7 @@ const displayController = ( () => {
 
 
     return {
-        mainDiv, setupContainer, gameTitle, gameContainer, playerOneTitle, playerTwoTitle,
+        mainDiv, setupContainer, gameTitle, gameContainer, displayCircle, playerOneTitle, playerTwoTitle,
         playerOneSelector, playerTwoSelector, AITwoSelector, newGameBtn
     }
 })();
@@ -199,6 +200,7 @@ const gamePlay = (() => {
         if (getGameOver() === true || getGameOver() === 'tie') {
             endGame();
         };
+        currentTurnMessage();
     }
 
     //Check to see if game is over
@@ -242,7 +244,7 @@ const gamePlay = (() => {
             endMessage.innerText = `This round is a tie.`;
         };
         let parentNode = displayController.mainDiv; //Display winning (or tie) game message
-        let childNode = displayController.gameContainer;
+        let childNode = displayController.displayCircle;
         parentNode.insertBefore(endMessage, childNode);
     }
 

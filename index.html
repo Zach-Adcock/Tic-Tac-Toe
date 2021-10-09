@@ -3,25 +3,28 @@
     <title>TicTacToe</title>
     <link href="TicTacToeCSS.css" rel="stylesheet">
     <script src="TicTacToejs.js" defer></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 
 <body>
+<div class="wrapper">
 <main class="main">
-
-    
+    <div class="header-background">
+        <div class="game-title">Tic-Tac-Toe</div>
+    </div>
     <div class="setup-container">
-        <div class="game-title">TicTacToe</div>
         <div class="player-one-setup">
-            <div class="player-one-title">Player One</div>
-            <button class="player-selector active" id="player-one-human-selector">Human</button>
+            <div class="player-one-title">Player One:
+                <button class="player-selector active" id="player-one-human-selector">Human</button>
+            </div>
         </div>
 
         <div class="player-two-setup">
-            <div class="player-two-title">Player Two</div>
-            <button class="player-selector active" id="player-two-human-selector">Human</button>
-            <button class="player-selector" id="player-two-AI-selector">AI</button>
+            <div class="player-two-title">Player Two:
+                <button class="player-selector active" id="player-two-human-selector">Human</button>
+                <button class="player-selector" id="player-two-AI-selector">AI</button>
+            </div>
         </div>
     </div>
 
@@ -29,28 +32,29 @@
     <button class="new-game">New Game</button>
 
     <div class='turn-indicator'></div>
-    
-    <div class='game-container'>
-    <div class="gameboard">
-        <div class="gamesquare" id="square-1"></div>
-        <div class="gamesquare" id="square-2"></div>
-        <div class="gamesquare" id="square-3"></div>
-        <div class="gamesquare" id="square-4"></div>
-        <div class="gamesquare" id="square-5"></div>
-        <div class="gamesquare" id="square-6"></div>
-        <div class="gamesquare" id="square-7"></div>
-        <div class="gamesquare" id="square-8"></div>
-        <div class="gamesquare" id="square-9"></div>
+    <div class='circle'>
+        <div class='game-container'>
+        <div class="gameboard">
+            <div class="gamesquare" id="square-1"></div>
+            <div class="gamesquare" id="square-2"></div>
+            <div class="gamesquare" id="square-3"></div>
+            <div class="gamesquare" id="square-4"></div>
+            <div class="gamesquare" id="square-5"></div>
+            <div class="gamesquare" id="square-6"></div>
+            <div class="gamesquare" id="square-7"></div>
+            <div class="gamesquare" id="square-8"></div>
+            <div class="gamesquare" id="square-9"></div>
 
-    </div>
-    </div>
-
-
-
+        </div>
+        </div>
+    </div>  
 
 
 
 
 
+
+      
 </main>
+</div>
 </body>

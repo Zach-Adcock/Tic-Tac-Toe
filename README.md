@@ -1,4 +1,4 @@
-# [Tic-Tac-Toe](https://decoderwring.github.io/Tic-Tac-Toe/)
+# [Tic-Tac-Toe](https://zach-adcock.github.io/Tic-Tac-Toe/)
 
 ## Overview
 This is a basic pass and play tic tac toe game. Option available to play against the (unintelligent) computer.
